@@ -171,11 +171,11 @@ export const Chapter2: React.FC<Chapter2Props> = ({ hands, dimensions }) => {
     // Specific logic for each material
     if (selectedCard === 0) {
       if (lastPalmPos.current) {
-        const v = Math.sqrt(Math.pow(palm.x - lastPalmPos.current.x, 2) + Math.pow(palm.y - lastPalmPos.current.y, 2));
+        const v = Math.sqrt(Math.pow(palmLocal.x - lastPalmPos.current.x, 2) + Math.pow(palmLocal.y - lastPalmPos.current.y, 2));
         palmVelocity.current = palmVelocity.current * 0.8 + v * 0.2;
         setIsPalmStill(palmVelocity.current < 15);
       }
-      lastPalmPos.current = palm;
+      lastPalmPos.current = palmLocal;
     } else {
       setIsPalmStill(false);
       lastPalmPos.current = null;
@@ -200,10 +200,10 @@ export const Chapter2: React.FC<Chapter2Props> = ({ hands, dimensions }) => {
     
     if (selectedCard === 3) {
       if (lastEraseX.current !== null) {
-        const delta = Math.abs(palm.x - lastEraseX.current);
+        const delta = Math.abs(palmLocal.x - lastEraseX.current);
         setEraseProgress(prev => Math.min(1, prev + delta * 0.002));
       }
-      lastEraseX.current = palm.x;
+      lastEraseX.current = palmLocal.x;
     } else {
       setEraseProgress(prev => prev > 0 ? Math.max(0, prev - 0.02) : prev);
       lastEraseX.current = null;

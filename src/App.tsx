@@ -35,7 +35,6 @@ export default function App() {
   const particles = useRef<any[]>([]);
 
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
-  const [scale, setScale] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Keep phaseRef in sync with phase state
@@ -45,10 +44,7 @@ export default function App() {
 
   useEffect(() => {
     const updateDimensions = () => {
-      setDimensions({ width: 1440, height: 900 });
-      const scaleX = window.innerWidth / 1440;
-      const scaleY = window.innerHeight / 900;
-      setScale(Math.min(scaleX, scaleY));
+      setDimensions({ width: window.innerWidth, height: window.innerHeight });
     };
     updateDimensions();
     window.addEventListener('resize', updateDimensions);
@@ -204,8 +200,7 @@ export default function App() {
     <div className="fixed inset-0 bg-[#1a1a1a] flex items-center justify-center overflow-hidden">
       <div 
         ref={containerRef}
-        className={`relative w-[1440px] h-[900px] origin-center ${phase === 'flexible' ? 'bg-white' : 'bg-[#E4E3E0]'} transition-colors duration-1000 text-[#141414] font-mono selection:bg-[#141414] selection:text-[#E4E3E0] overflow-hidden flex flex-col items-center justify-center shadow-2xl`}
-        style={{ transform: `scale(${scale})` }}
+        className={`relative w-full h-full origin-center ${phase === 'flexible' ? 'bg-white' : 'bg-[#E4E3E0]'} transition-colors duration-1000 text-[#141414] font-mono selection:bg-[#141414] selection:text-[#E4E3E0] overflow-hidden flex flex-col items-center justify-center shadow-2xl`}
       >
         {/* Header Info */}
       <AnimatePresence>
@@ -488,7 +483,7 @@ export default function App() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="absolute inset-0"
             >
-              <Chapter4 hands={hands} dimensions={dimensions} scale={scale} />
+              <Chapter4 hands={hands} dimensions={dimensions} />
             </motion.div>
           )}
 

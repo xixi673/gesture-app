@@ -611,7 +611,7 @@ export const Chapter4: React.FC<Chapter4Props> = ({ hands, dimensions }) => {
                             data-draggable="true"
                             data-src={src}
                             onPointerDown={(e) => handlePointerDown(e, src)}
-                            className="aspect-square bg-black/5 rounded-xl p-1 cursor-grab active:cursor-grabbing hover:bg-black/10 transition-colors flex items-center justify-center"
+                            className="aspect-square bg-black/5 rounded-xl p-3 cursor-grab active:cursor-grabbing hover:bg-black/10 transition-colors flex items-center justify-center"
                           >
                             <img src={src} className="w-full h-full object-contain mix-blend-multiply pointer-events-none" referrerPolicy="no-referrer" crossOrigin="anonymous" />
                           </div>
