@@ -5,7 +5,7 @@
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { GestureManager } from './components/GestureManager';
+import { GestureInitError, GestureManager } from './components/GestureManager';
 import { Chapter2 } from './components/Chapter2';
 import { Chapter3 } from './components/Chapter3';
 import { Chapter4 } from './components/Chapter4';
@@ -31,6 +31,7 @@ export default function App() {
   const particles = useRef<any[]>([]);
 
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [gestureInitError, setGestureInitError] = useState<GestureInitError | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Keep phaseRef in sync with phase state
@@ -70,6 +71,11 @@ export default function App() {
       if (prev.length === 0 && newHands.length === 0) return prev;
       return newHands;
     });
+  }, []);
+
+  const handleGestureInitError = useCallback((error: GestureInitError) => {
+    console.error('[App] Gesture initialization error', error);
+    setGestureInitError(error);
   }, []);
 
   // Touch detection for navigation
@@ -486,6 +492,28 @@ export default function App() {
         </AnimatePresence>
       </motion.div>
 
+      {/* Gesture Initialization Error */}
+      {gestureInitError && (
+        <div className="absolute top-12 left-1/2 -translate-x-1/2 z-[10001] w-[min(90vw,560px)] rounded-2xl border border-red-500/20 bg-black/75 px-5 py-4 text-white shadow-2xl backdrop-blur-md">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.25em] text-red-300/80">Camera Error</div>
+              <div className="mt-1 text-sm font-semibold">{gestureInitError.title}</div>
+              <div className="mt-2 text-sm text-white/80">{gestureInitError.message}</div>
+              <div className="mt-3 text-[11px] font-mono text-white/55 break-all">
+                [{gestureInitError.stage}] {gestureInitError.detail}
+              </div>
+            </div>
+            <button
+              className="shrink-0 rounded-full border border-white/15 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/70 transition hover:bg-white/10 hover:text-white"
+              onClick={() => setGestureInitError(null)}
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Interaction Guide */}
       <div className="absolute bottom-12 left-12 flex items-center gap-8 z-10">
         <div className="flex flex-col gap-1">
@@ -510,11 +538,12 @@ export default function App() {
       </div>
 
       {/* Gesture Manager */}
-      <GestureManager 
-        onGesture={handleGesture} 
+      <GestureManager
+        onGesture={handleGesture}
         onSwipeUpdate={handleSwipeUpdate}
-        onHandsUpdate={handleHandsUpdate} 
-        debug={false} 
+        onHandsUpdate={handleHandsUpdate}
+        onError={handleGestureInitError}
+        debug={false}
       />
 
       {/* Index Finger Cursor */}
