@@ -10,15 +10,11 @@ import { Chapter2 } from './components/Chapter2';
 import { Chapter3 } from './components/Chapter3';
 import { Chapter4 } from './components/Chapter4';
 import { Sparkles, Hand, Wind, Zap, ChevronLeft, ChevronRight } from 'lucide-react';
+import { FLEXIBLE_IMAGES, P6_TEXTURE, TRADITIONAL_IMAGE } from './assets';
 
 const ASSETS = {
-  TRADITIONAL: 'https://github.com/dyn001015-lab/web/blob/main/%E4%BC%A0%E7%BB%9F.png?raw=true',
-  FLEXIBLE: [
-    'https://github.com/dyn001015-lab/web/blob/main/%E6%9F%94%E6%80%A71.png?raw=true',
-    'https://github.com/dyn001015-lab/web/blob/main/%E6%9F%94%E6%80%A72.png?raw=true',
-    'https://github.com/dyn001015-lab/web/blob/main/%E6%9F%94%E6%80%A73.png?raw=true',
-    'https://github.com/dyn001015-lab/web/blob/main/%E6%9F%94%E6%80%A74.png?raw=true',
-  ]
+  TRADITIONAL: TRADITIONAL_IMAGE,
+  FLEXIBLE: FLEXIBLE_IMAGES,
 };
 
 type Phase = 'initial' | 'dissipating' | 'flexible' | 'chapter2' | 'chapter3' | 'chapter4';
@@ -573,7 +569,10 @@ export default function App() {
       </div>
 
       {/* Background Texture */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/p6.png')]" />
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-multiply"
+        style={{ backgroundImage: `url(${P6_TEXTURE})` }}
+      />
       </div>
     </div>
   );

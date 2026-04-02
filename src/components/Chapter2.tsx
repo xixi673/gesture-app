@@ -2,13 +2,9 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Hand, Pointer, Shrink, MoveHorizontal } from 'lucide-react';
 import { NetworkSphere, OrbitParticles, PixelEffect } from './Effects';
+import { LINEAR_IMAGES } from '../assets';
 
-const ASSETS = [
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E7%BA%BF%E6%80%A71.png',
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E7%BA%BF%E6%80%A72.png',
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E7%BA%BF%E6%80%A73.png',
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E7%BA%BF%E6%80%A74.png'
-];
+const ASSETS = LINEAR_IMAGES;
 
 const CARD_DATA = [
   { title: "Advanced Management", desc: "The most advanced queuing technology in the market reduce latency and limit bandwidth without compromising the quality.", icon: Hand, hint: "Open Hand" },

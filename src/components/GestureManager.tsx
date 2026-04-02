@@ -96,7 +96,7 @@ export const GestureManager: React.FC<GestureManagerProps> = ({ onGesture, onSwi
   useEffect(() => {
     if (!globalHandsInstance) {
       globalHandsInstance = new Hands({
-        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/${file}`,
+        locateFile: (file) => `/mediapipe/hands/${file}`,
       });
 
       globalHandsInstance.setOptions({

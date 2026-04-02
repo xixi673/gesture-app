@@ -3,31 +3,13 @@ import { motion, AnimatePresence } from 'motion/react';
 import { QRCodeSVG } from 'qrcode.react';
 import { Share2, Download, X, Maximize, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { toPng } from 'html-to-image';
+import { ABSTRACT_IMAGES, FLEXIBLE_IMAGES, LINEAR_IMAGES, VASE_IMAGES } from '../assets';
 
 const ASSETS = {
-  flexible: [
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%9F%94%E6%80%A71.png',
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%9F%94%E6%80%A72.png',
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%9F%94%E6%80%A73.png',
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%9F%94%E6%80%A74.png'
-  ],
-  linear: [
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E7%BA%BF%E6%80%A71.png',
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E7%BA%BF%E6%80%A72.png',
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E7%BA%BF%E6%80%A73.png',
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E7%BA%BF%E6%80%A74.png'
-  ],
-  abstract: [
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A11.png',
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A12.png',
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A13.png',
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A14.png'
-  ],
-  vases: [
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/IMG_4005%202.png',
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/IMG_4005%203.png',
-    'https://raw.githubusercontent.com/dyn001015-lab/web/main/IMG_4005.png'
-  ]
+  flexible: FLEXIBLE_IMAGES,
+  linear: LINEAR_IMAGES,
+  abstract: ABSTRACT_IMAGES,
+  vases: VASE_IMAGES,
 };
 
 type Category = 'flexible' | 'linear' | 'abstract';

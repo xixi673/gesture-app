@@ -1,19 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { ABSTRACT_DOT_IMAGES, ABSTRACT_IMAGES } from '../assets';
 
-const DOT_ASSETS = [
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A11%EF%BC%88%E7%82%B9%EF%BC%89.png',
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A12%EF%BC%88%E7%82%B9%EF%BC%89.png',
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A13%EF%BC%88%E7%82%B9%EF%BC%89.png',
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A14%EF%BC%88%E7%82%B9%EF%BC%89.png'
-];
+const DOT_ASSETS = ABSTRACT_DOT_IMAGES;
 
-const PATTERN_ASSETS = [
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A11.png',
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A12.png',
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A13.png',
-  'https://raw.githubusercontent.com/dyn001015-lab/web/main/%E6%8A%BD%E8%B1%A14.png'
-];
+const PATTERN_ASSETS = ABSTRACT_IMAGES;
 
 const LOW_SATURATION_COLORS = [
   '#7A9CAC', // Muted Blue

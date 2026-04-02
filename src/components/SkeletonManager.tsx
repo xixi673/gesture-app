@@ -146,7 +146,7 @@ export const SkeletonManager: React.FC<SkeletonManagerProps> = ({ assets, onComp
     
     if (!globalPoseInstance) {
       globalPoseInstance = new Pose({
-        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/${file}`,
+        locateFile: (file) => `/mediapipe/pose/${file}`,
       });
 
       globalPoseInstance.setOptions({
