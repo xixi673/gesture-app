@@ -10,3 +10,9 @@ coverage/
 CLAUDE.md
 .claude/
 .omc/
+
+# Tauri / Rust build outputs
+src-tauri/target/
+src-tauri/gen/
+src-tauri/Cargo.lock
+src-tauri/icon-source.png

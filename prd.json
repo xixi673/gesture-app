@@ -1,0 +1,50 @@
+{
+  "stories": [
+    {
+      "id": "US-001",
+      "title": "建立 Tauri 桌面壳与本地开发命令",
+      "priority": 1,
+      "passes": true,
+      "acceptanceCriteria": [
+        "仓库新增 src-tauri/ 目录，包含 Cargo.toml、tauri.conf.json 与 Rust 入口文件",
+        "package.json 新增用于 Tauri 开发/构建的脚本，不替换现有 Vite 脚本",
+        "前端构建产物可被 Tauri 配置引用，且不要求改动现有 React 功能代码",
+        "Tauri 配置默认支持 Windows 本地开发，并为 macOS 打包保留 bundle 标识与图标位"
+      ]
+    },
+    {
+      "id": "US-002",
+      "title": "完成离线资源适配且不改动现有功能逻辑",
+      "priority": 2,
+      "passes": true,
+      "acceptanceCriteria": [
+        "运行期不再依赖外部 CDN 或 GitHub Raw 资源来完成核心功能，现有图片与 MediaPipe 资源均从仓库本地加载",
+        "若存在浏览器环境专用外链配置，则改为同时兼容 Tauri file/http 开发环境",
+        "src/App.tsx、src/components/GestureManager.tsx、src/components/SkeletonManager.tsx、src/components/Chapter3.tsx、src/components/Chapter4.tsx 的交互功能不被重写，只允许做离线运行所需适配"
+      ]
+    },
+    {
+      "id": "US-003",
+      "title": "配置 macOS 安装包构建流程",
+      "priority": 3,
+      "passes": true,
+      "acceptanceCriteria": [
+        "仓库新增 GitHub Actions 工作流，用于在 macOS runner 上安装 Rust/Node 依赖并执行 Tauri 打包",
+        "工作流产出 macOS 安装包相关 artifacts，并将签名所需敏感信息保留为 secrets/env 占位而非硬编码",
+        "工作流不影响现有 Windows 本地开发命令"
+      ]
+    },
+    {
+      "id": "US-004",
+      "title": "完成本地校验与交付说明",
+      "priority": 4,
+      "passes": true,
+      "acceptanceCriteria": [
+        "npm run lint 成功",
+        "npm run build 成功",
+        "受影响文件的 LSP diagnostics 无 error",
+        "progress.txt 记录每个故事完成情况、改动文件与剩余人工步骤（如 macOS 签名 secrets）"
+      ]
+    }
+  ]
+}

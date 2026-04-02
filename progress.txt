@@ -1,0 +1,13 @@
+Ralph progress log
+
+- 2026-04-02 初始化检查：仓库当前无 src-tauri、无项目级 GitHub Actions 工作流、package.json 无 tauri 相关脚本。
+- 已确认现有核心功能代码位于 src/App.tsx、src/components/GestureManager.tsx、src/components/SkeletonManager.tsx、src/components/Chapter3.tsx、src/components/Chapter4.tsx。
+- 已确认图片资源与 MediaPipe wasm 资源多数已本地化，需继续补齐 Tauri 桌面壳、离线适配校验、macOS 打包工作流与最终验证记录。
+- 2026-04-02 已按“仅做 Tauri 套壳”收敛范围：不改现有前端业务代码，仅新增 src-tauri/、图标资源、package.json Tauri 脚本与依赖、vite.config.ts 的 Tauri 开发配置、.github/workflows/tauri-macos.yml。
+- 2026-04-02 用户明确要求撤回前端代码改动，Chapter4.tsx 已恢复为原始前端实现，仅保留套壳相关改动。
+- 2026-04-02 用户明确 macOS 包仅自用，不做 Apple 正式签名；已将 Tauri 配置与 GitHub Actions 调整为 ad-hoc signingIdentity '-'，不再要求 Apple secrets。
+- 2026-04-02 用户要求移除非桌面平台图标，已删除 src-tauri/icons/android 与 src-tauri/icons/ios。
+- 2026-04-02 用户要求完善 .gitignore，已补充 Tauri/Rust 构建产物忽略规则。
+- 2026-04-02 校验结果：npm run lint 通过；npm run build 通过；目录级 TypeScript diagnostics 0 error；git diff -- src 返回无差异，确认未改动前端源码。
+- 2026-04-02 tauri build 最终通过，生成 Windows 自用安装包：src-tauri/target/release/bundle/msi/gesture-app_0.1.0_x64_en-US.msi 与 src-tauri/target/release/bundle/nsis/gesture-app_0.1.0_x64-setup.exe。
+- 2026-04-02 代码简化检查：vite.config.ts 当前改动已较小，仅包含 Tauri 开发所需最小配置，无需额外清理。
