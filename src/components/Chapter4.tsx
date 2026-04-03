@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { flushSync } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { QRCodeSVG } from 'qrcode.react';
 import { Share2, Download, X, Maximize, ChevronLeft, ChevronRight, Check } from 'lucide-react';
@@ -442,6 +443,12 @@ export const Chapter4: React.FC<Chapter4Props> = ({ hands, dimensions }) => {
   }, [hands, dimensions]);
 
   const handleDownload = async () => {
+    // 强制 React 同步渲染，确保 placedItems 状态已反映到 DOM
+    flushSync(() => {});
+
+    // 等待一帧让 DOM 完全更新
+    await new Promise(resolve => requestAnimationFrame(resolve));
+
     if (!cardRef.current) return;
 
     try {
