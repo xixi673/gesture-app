@@ -6,6 +6,11 @@
   "permissions": [
     "core:default",
     "opener:default",
-    "macos-permissions:default"
+    "macos-permissions:default",
+    "dialog:default",
+    "fs:allow-write-file",
+    "fs:allow-download-write",
+    "fs:allow-desktop-write",
+    "fs:allow-picture-write"
   ]
 }

@@ -440,20 +440,58 @@ export const Chapter4: React.FC<Chapter4Props> = ({ hands, dimensions }) => {
   }, [hands, dimensions]);
 
   const handleDownload = async () => {
-    if (cardRef.current) {
-      try {
-        const dataUrl = await toPng(cardRef.current, {
-          quality: 1,
-          pixelRatio: 2,
-          backgroundColor: '#ffffff'
+    if (!cardRef.current) return;
+
+    try {
+      const dataUrl = await toPng(cardRef.current, {
+        quality: 1,
+        pixelRatio: 2,
+        backgroundColor: '#ffffff'
+      });
+
+      // 检测是否在 Tauri 环境
+      const isTauri = typeof window !== 'undefined' && !!(window as any).isTauri;
+
+      if (isTauri) {
+        // Tauri 环境：使用原生对话框保存
+        const { save } = await import('@tauri-apps/plugin-dialog');
+        const { writeFile } = await import('@tauri-apps/plugin-fs');
+
+        const filePath = await save({
+          filters: [{
+            name: 'PNG Image',
+            extensions: ['png']
+          }],
+          defaultPath: `aesthetic-id-${Date.now()}.png`
         });
+
+        if (filePath) {
+          // 将 base64 data URL 转换为 Uint8Array
+          const base64Data = dataUrl.split(',')[1];
+          const binaryData = atob(base64Data);
+          const uint8Array = new Uint8Array(binaryData.length);
+          for (let i = 0; i < binaryData.length; i++) {
+            uint8Array[i] = binaryData.charCodeAt(i);
+          }
+          await writeFile(filePath, uint8Array);
+        }
+      } else {
+        // 浏览器环境：使用传统下载方式
+        const response = await fetch(dataUrl);
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+
         const link = document.createElement('a');
         link.download = `aesthetic-id-${Date.now()}.png`;
-        link.href = dataUrl;
+        link.href = blobUrl;
+        link.style.display = 'none';
+        document.body.appendChild(link);
         link.click();
-      } catch (err) {
-        console.error('Download failed', err);
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl);
       }
+    } catch (err) {
+      console.error('Download failed', err);
     }
   };
 
