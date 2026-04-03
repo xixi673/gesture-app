@@ -11,6 +11,7 @@ import { Chapter3 } from './components/Chapter3';
 import { Chapter4 } from './components/Chapter4';
 import { Sparkles, Hand, Wind, Zap, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FLEXIBLE_IMAGES, P6_TEXTURE, TRADITIONAL_IMAGE } from './assets';
+import { checkCameraPermission, requestCameraPermission } from 'tauri-plugin-macos-permissions-api';
 
 const ASSETS = {
   TRADITIONAL: TRADITIONAL_IMAGE,
@@ -545,7 +546,29 @@ export default function App() {
               您的视频数据仅在本地处理，不会上传服务器
             </div>
             <button
-              onClick={() => setCameraStarted(true)}
+              onClick={async () => {
+                // 检查并请求 macOS 摄像头权限
+                try {
+                  const hasPermission = await checkCameraPermission();
+                  if (!hasPermission) {
+                    const granted = await requestCameraPermission();
+                    if (!granted) {
+                      setGestureInitError({
+                        stage: 'permission',
+                        title: '摄像头权限被拒绝',
+                        message: '请在 macOS 系统设置中允许此应用访问摄像头。',
+                        detail: 'User denied camera permission'
+                      });
+                      return;
+                    }
+                  }
+                  setCameraStarted(true);
+                } catch (error) {
+                  console.error('Failed to check/request camera permission:', error);
+                  // 如果插件不可用，直接尝试启动
+                  setCameraStarted(true);
+                }
+              }}
               className="px-8 py-4 bg-white/20 hover:bg-white/30 text-white rounded-xl font-medium transition-all duration-300 flex items-center gap-3 mx-auto border border-white/20 hover:border-white/40"
             >
               <Hand size={20} />
