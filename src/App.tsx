@@ -20,6 +20,7 @@ const ASSETS = {
 type Phase = 'initial' | 'dissipating' | 'flexible' | 'chapter2' | 'chapter3' | 'chapter4';
 
 export default function App() {
+  const [cameraStarted, setCameraStarted] = useState(false);
   const [phase, setPhase] = useState<Phase>('initial');
   const phaseRef = useRef<Phase>('initial');
   const [clenchValue, setClenchValue] = useState(0);
@@ -492,27 +493,7 @@ export default function App() {
         </AnimatePresence>
       </motion.div>
 
-      {/* Gesture Initialization Error */}
-      {gestureInitError && (
-        <div className="absolute top-12 left-1/2 -translate-x-1/2 z-[10001] w-[min(90vw,560px)] rounded-2xl border border-red-500/20 bg-black/75 px-5 py-4 text-white shadow-2xl backdrop-blur-md">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <div className="text-[10px] uppercase tracking-[0.25em] text-red-300/80">Camera Error</div>
-              <div className="mt-1 text-sm font-semibold">{gestureInitError.title}</div>
-              <div className="mt-2 text-sm text-white/80">{gestureInitError.message}</div>
-              <div className="mt-3 text-[11px] font-mono text-white/55 break-all">
-                [{gestureInitError.stage}] {gestureInitError.detail}
-              </div>
-            </div>
-            <button
-              className="shrink-0 rounded-full border border-white/15 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/70 transition hover:bg-white/10 hover:text-white"
-              onClick={() => setGestureInitError(null)}
-            >
-              Dismiss
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Gesture Initialization Error - 已移动到启动页内显示 */}
 
       {/* Interaction Guide */}
       <div className="absolute bottom-12 left-12 flex items-center gap-8 z-10">
@@ -537,14 +518,48 @@ export default function App() {
         </div>
       </div>
 
-      {/* Gesture Manager */}
-      <GestureManager
-        onGesture={handleGesture}
-        onSwipeUpdate={handleSwipeUpdate}
-        onHandsUpdate={handleHandsUpdate}
-        onError={handleGestureInitError}
-        debug={false}
-      />
+      {/* 手势识别管理器 - 仅在用户点击启动后渲染 */}
+      {cameraStarted && (
+        <GestureManager
+          onGesture={handleGesture}
+          onSwipeUpdate={handleSwipeUpdate}
+          onHandsUpdate={handleHandsUpdate}
+          onError={handleGestureInitError}
+          debug={false}
+        />
+      )}
+
+      {/* 启动按钮 - 仅在未启动时显示 */}
+      {!cameraStarted && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute inset-0 z-[10000] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+        >
+          <div className="text-center space-y-6 p-8">
+            <div className="text-2xl font-light italic tracking-tighter text-white">
+              感知序章
+            </div>
+            <div className="text-sm text-white/60 max-w-md">
+              本应用需要访问摄像头以识别手势交互<br/>
+              您的视频数据仅在本地处理，不会上传服务器
+            </div>
+            <button
+              onClick={() => setCameraStarted(true)}
+              className="px-8 py-4 bg-white/20 hover:bg-white/30 text-white rounded-xl font-medium transition-all duration-300 flex items-center gap-3 mx-auto border border-white/20 hover:border-white/40"
+            >
+              <Hand size={20} />
+              点击开启体验
+            </button>
+            {gestureInitError && (
+              <div className="text-red-400 text-sm max-w-md mx-auto">
+                <div className="font-medium">{gestureInitError.title}</div>
+                <div className="text-red-400/70 text-sm mt-1">{gestureInitError.message}</div>
+              </div>
+            )}
+          </div>
+        </motion.div>
+      )}
 
       {/* Index Finger Cursor */}
       {hands.length > 0 && hands[0][8] && (
