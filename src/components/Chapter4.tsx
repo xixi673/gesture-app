@@ -4,6 +4,8 @@ import { QRCodeSVG } from 'qrcode.react';
 import { Share2, Download, X, Maximize, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { ABSTRACT_IMAGES, FLEXIBLE_IMAGES, LINEAR_IMAGES, VASE_IMAGES } from '../assets';
+import { save } from '@tauri-apps/plugin-dialog';
+import { writeFile } from '@tauri-apps/plugin-fs';
 
 const ASSETS = {
   flexible: FLEXIBLE_IMAGES,
@@ -454,9 +456,6 @@ export const Chapter4: React.FC<Chapter4Props> = ({ hands, dimensions }) => {
 
       if (isTauri) {
         // Tauri 环境：使用原生对话框保存
-        const { save } = await import('@tauri-apps/plugin-dialog');
-        const { writeFile } = await import('@tauri-apps/plugin-fs');
-
         const filePath = await save({
           filters: [{
             name: 'PNG Image',
