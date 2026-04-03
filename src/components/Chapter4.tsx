@@ -446,8 +446,8 @@ export const Chapter4: React.FC<Chapter4Props> = ({ hands, dimensions }) => {
     // 强制 React 同步渲染，确保 placedItems 状态已反映到 DOM
     flushSync(() => {});
 
-    // 等待一帧让 DOM 完全更新
-    await new Promise(resolve => requestAnimationFrame(resolve));
+    // 等待 1 秒让 DOM 和图片完全更新
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     if (!cardRef.current) return;
 
@@ -455,7 +455,8 @@ export const Chapter4: React.FC<Chapter4Props> = ({ hands, dimensions }) => {
       const dataUrl = await toPng(cardRef.current, {
         quality: 1,
         pixelRatio: 2,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        cacheBust: true,
       });
 
       // 检测是否在 Tauri 环境
