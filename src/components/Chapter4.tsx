@@ -443,13 +443,14 @@ export const Chapter4: React.FC<Chapter4Props> = ({ hands, dimensions }) => {
   }, [hands, dimensions]);
 
   const handleDownload = async () => {
-    // 强制 React 同步渲染，确保 placedItems 状态已反映到 DOM
-    flushSync(() => {});
-
-    // 等待 1 秒让 DOM 和图片完全更新
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
     if (!cardRef.current) return;
+
+    // 强制 DOM 变化，破坏 html-to-image 内部缓存
+    cardRef.current.dataset.renderTime = Date.now().toString();
+    // 强制重排
+    cardRef.current.getBoundingClientRect();
+    // 等一帧
+    await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
 
     try {
       const dataUrl = await toPng(cardRef.current, {
@@ -458,6 +459,8 @@ export const Chapter4: React.FC<Chapter4Props> = ({ hands, dimensions }) => {
         backgroundColor: '#ffffff',
         cacheBust: true,
       });
+
+      delete cardRef.current.dataset.renderTime;
 
       // 检测是否在 Tauri 环境
       const isTauri = typeof window !== 'undefined' && !!(window as any).isTauri;
@@ -498,6 +501,7 @@ export const Chapter4: React.FC<Chapter4Props> = ({ hands, dimensions }) => {
         URL.revokeObjectURL(blobUrl);
       }
     } catch (err) {
+      delete cardRef.current.dataset.renderTime;
       console.error('Download failed', err);
     }
   };
